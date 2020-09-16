@@ -25,7 +25,9 @@
         >
           <template>
             <v-icon size="16">fas fa-camera</v-icon>
-            <span class="ml-2">{{ asset.newThumbnailData || asset.thumbnail ? 'Recapture thumbnail' : 'Capture thumbnail' }}</span>
+            <span class="ml-2">
+              {{ asset.newThumbnailData || asset.thumbnail ? 'Recapture thumbnail' : 'Capture thumbnail' }}
+            </span>
           </template>
         </v-chip>
 
@@ -34,48 +36,48 @@
           required outlined dense
           label="Name"
           :rules="[
-              v => !!v || 'Name is required'
-            ]"
+            v => !!v || 'Name is required'
+          ]"
         />
         <v-file-input
           v-model="asset.model"
           required outlined dense
           prepend-icon="" label="3D Model" accept=".fbx"
           :rules="[
-              v => !!v || '3D Model is required'
-            ]"
+            v => !!v || '3D Model is required'
+          ]"
         />
         <v-file-input
           v-model="asset.albedo"
           required outlined dense
           prepend-icon="" label="Albedo" accept=".png,.jpg,.jpeg"
           :rules="[
-              v => !!v || 'Albedo Texture is required'
-            ]"
+            v => !!v || 'Albedo Texture is required'
+          ]"
         />
         <v-file-input
           v-model="asset.metalness"
           required outlined dense
           prepend-icon="" label="Metalness" accept=".png,.jpg,.jpeg"
           :rules="[
-              v => !!v || 'Metalness Texture is required'
-            ]"
+            v => !!v || 'Metalness Texture is required'
+          ]"
         />
         <v-file-input
           v-model="asset.roughness"
           required outlined dense
           prepend-icon="" label="Roughness" accept=".png,.jpg,.jpeg"
           :rules="[
-              v => !!v || 'Roughness Texture is required'
-            ]"
+            v => !!v || 'Roughness Texture is required'
+          ]"
         />
         <v-file-input
           v-model="asset.normal"
           required outlined dense
           prepend-icon="" label="Normal" accept=".png,.jpg,.jpeg"
           :rules="[
-              v => !!v || 'Normal Texture is required'
-            ]"
+            v => !!v || 'Normal Texture is required'
+          ]"
         />
       </v-form>
 
@@ -108,12 +110,14 @@ export default class AssetImport extends Vue {
   /**
    * Refs
    */
+
   @Ref('form') readonly form!: HTMLFormElement;
   @Ref('preview-scene') readonly previewScene!: AssetPreviewScene;
 
   /**
    * Props
    */
+
   @Prop({ type: Boolean, default: false }) readonly editMode!: boolean;
   @Prop() readonly editAsset!: Asset;
 
@@ -121,7 +125,7 @@ export default class AssetImport extends Vue {
    * Data
    */
 
-  // Form validity state */
+  // Form validity state
   formValid: boolean = true;
 
   // Asset model
@@ -140,6 +144,7 @@ export default class AssetImport extends Vue {
   /**
    * Computed
    */
+
   get titleText(): string {
     return this.editMode ? 'Edit asset' : 'Import asset';
   }
@@ -171,8 +176,10 @@ export default class AssetImport extends Vue {
 
   /**
    * When form is submitted
+   *
+   * @param dialogClose
    */
-  async formSubmit(close: Function): Promise<void> {
+  async formSubmit(dialogClose: Function): Promise<void> {
 
     if (this.form.validate()) {
       try {
@@ -192,7 +199,7 @@ export default class AssetImport extends Vue {
 
         this.editMode ? await assetModule.updateAsset(asset) : await assetModule.addAsset(asset);
 
-        close();
+        dialogClose();
       }
       catch (error) {
         errorModule.handleError(error);
@@ -224,6 +231,7 @@ export default class AssetImport extends Vue {
 
   /**
    * Convert file to custom object since File type cannot be serialized
+   *
    * @param file
    */
   convertFile(file: AssetFile): AssetFile {

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog v-model="dialog" persistent :max-width="width">
 
     <!-- Activator slot -->
     <template v-slot:activator="{ on, attrs }">
@@ -11,7 +11,7 @@
       <v-card-title>
         <div class="text-h6">{{ title }}</div>
         <v-spacer/>
-        <v-tooltip left>
+        <v-tooltip left v-if="!removeCloseBtn">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               icon
@@ -48,7 +48,10 @@ export default class BaseDialog extends Vue {
   /**
    * Props
    */
+
   @Prop() readonly title!: string;
+  @Prop({ default: false }) readonly removeCloseBtn!: boolean;
+  @Prop({ default: 600 }) readonly width!: number;
 
   /**
    * Data
@@ -58,8 +61,9 @@ export default class BaseDialog extends Vue {
   dialog: boolean = false;
 
   /**
-   * Hooks
+   * Emitters
    */
+
   @Emit()
   dialogChanged(dialog: boolean): boolean {
     return dialog;

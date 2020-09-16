@@ -61,8 +61,9 @@ export class AssetModule extends VuexModule {
   }
 
   /**
-   * Update an existing asset
+   * Update an asset
    * - Validates duplicate asset name
+   * - Validates asset exists
    * - Saves thumbnail if defined
    * - Mutate asset array
    *
@@ -83,6 +84,24 @@ export class AssetModule extends VuexModule {
     }
 
     this.assets = [...this.assets.filter(a => a.uuid !== asset.uuid), asset];
+  }
+
+  /**
+   * Delete an asset
+   * - Validates asset exists
+   * - Mutate asset array
+   *
+   * @param uuid
+   */
+  @Action async deleteAsset(uuid: string): Promise<void> {
+
+    const assetToUpdate = this.assets.find(a => a.uuid === uuid);
+
+    if (!assetToUpdate) {
+      throw new AssetNotFoundError(uuid);
+    }
+
+    this.assets = this.assets.filter(a => a.uuid !== uuid);
   }
 
   /**

@@ -30,11 +30,9 @@
             <template v-slot:activator="{ on: tooltip }">
               <v-btn
                 icon
-                height="32"
-                width="32"
                 v-on="{ ...tooltip, ...dialog }"
               >
-                <v-icon size="18" dark>fas fa-cog</v-icon>
+                <v-icon dark>fas fa-cog</v-icon>
               </v-btn>
             </template>
             <span>Settings</span>

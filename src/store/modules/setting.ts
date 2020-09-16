@@ -8,12 +8,12 @@ export class SettingModule extends VuexModule {
 
   private engine: EngineEnum = EngineEnum.UnrealEngine;
 
-  ueSettings: UeSettings = {
+  private ueSettings: UeSettings = {
     ueVersion: '',
-    uePath: '',
-    ueProjectPath: '',
+    uePath: undefined,
+    ueProjectPath: undefined,
     ueExportDirectoryName: 'Assets'
-  }
+  };
 
   constructor(options: RegisterOptions) {
     super(options);
@@ -21,13 +21,30 @@ export class SettingModule extends VuexModule {
     this.loadState();
   }
 
-  /*
+  /**
    * Retrieve and load persisted state when module is registered
    */
-  loadState() {
+  loadState(): void {
     const state = Persister.getPersistedState('setting');
 
-    this.ueSettings = state.ueSettings;
+    this.engine = state.engine || this.engine;
+    this.ueSettings = state.ueSettings || this.ueSettings;
+  }
+
+  get getEngine(): EngineEnum {
+    return this.engine;
+  }
+
+  get getUnrealEngineSettings(): UeSettings {
+    return this.ueSettings;
+  }
+
+  /**
+   * Update engine used
+   * @param engine
+   */
+  @Action updateEngine(engine: EngineEnum): void {
+    this.engine = engine;
   }
 
   /**
@@ -35,10 +52,10 @@ export class SettingModule extends VuexModule {
    *
    * @param settings
    */
-  @Action updateUeSettings(settings: UeSettings) {
+  @Action updateUeSettings(settings: UeSettings): void {
     this.ueSettings = settings;
   }
 
 }
 
-export const assetModule = new SettingModule({ store: store, name: 'setting' })
+export const settingModule = new SettingModule({ store: store, name: 'setting' });

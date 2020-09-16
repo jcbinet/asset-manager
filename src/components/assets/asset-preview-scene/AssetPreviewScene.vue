@@ -16,6 +16,7 @@
 <script lang="ts">
 import { Component, Prop, Ref, Vue, Watch } from 'vue-property-decorator';
 import {
+  Color,
   CubeTexture, CubeTextureLoader,
   DirectionalLight, Group, HemisphereLight,
   Mesh, MeshStandardMaterial, Object3D, PCFSoftShadowMap,
@@ -34,21 +35,20 @@ export default class AssetPreviewScene extends Vue {
   /**
    * Refs
    */
-  @Ref('preview') readonly preview!: HTMLElement;
 
-  /**
-   * Vuex
-   */
+  @Ref('preview') readonly preview!: HTMLElement;
 
   /**
    * Props
    */
+
   @Prop() readonly asset!: Asset;
 
 
   /**
    * Data
    */
+
   scene!: Scene;
   renderer!: WebGLRenderer;
   camera!: PerspectiveCamera;
@@ -61,7 +61,7 @@ export default class AssetPreviewScene extends Vue {
   directionalLight!: DirectionalLight;
   material = new MeshStandardMaterial({ metalness: 1 });
   assetRef!: Mesh<any>;
-  debouncedApply = debounce(this.applyChanges, 200);
+  debouncedApply = debounce(this.applyChanges, 100);
   loading: boolean = false;
 
   /**
@@ -140,7 +140,8 @@ export default class AssetPreviewScene extends Vue {
   async initializeScene() {
     this.scene = new Scene();
 
-    this.material.envMap = this.scene.background = await this.loadCubeMap();
+    this.scene.background = new Color('#1a1a1a');
+    this.material.envMap = await this.loadCubeMap();
   }
 
   initializeLighting() {
@@ -267,11 +268,12 @@ export default class AssetPreviewScene extends Vue {
     return this.renderer.domElement.toDataURL();
   }
 
-  async applyChanges() {
+  applyChanges() {
 
     this.assetRef.material = this.material;
     this.assetRef.material.needsUpdate = true;
 
+    this.renderScene();
     this.renderScene();
 
     this.loading = false;

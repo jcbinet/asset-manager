@@ -30,7 +30,7 @@ export class Persist<S> {
    * @param module
    */
   getPersistedState(module: string): any {
-    return this.persistedState[module];
+    return this.persistedState[module] || {};
   }
 
   /**

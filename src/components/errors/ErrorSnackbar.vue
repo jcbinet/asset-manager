@@ -26,19 +26,23 @@ export default class ErrorSnackbar extends Vue {
    * Data
    */
 
-  // Snackbar
   showSnackbar: boolean = false;
 
   /**
-   * Computed
+   * Vuex Computed
    */
+
   get getErrorText() {
     return errorModule.getErrorMessage;
   }
 
   get getErrorUuid() {
-    return errorModule.errorUuid;
+    return errorModule.getErrorUuid;
   }
+
+  /**
+   * Watchers
+   */
 
   @Watch('getErrorUuid')
   onErrorChange() {
@@ -49,6 +53,7 @@ export default class ErrorSnackbar extends Vue {
   /**
    * Methods
    */
+
   closeSnackbar() {
     this.showSnackbar = false;
   }
