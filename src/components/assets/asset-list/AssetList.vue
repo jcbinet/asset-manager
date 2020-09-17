@@ -85,9 +85,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { assetModule } from '@/store/modules/asset';
+import { errorModule } from '@/store/modules/error';
 import AssetImport from '@/components/assets/asset-import/AssetImportDialog.vue';
 import ConfirmDialog from '@/components/dialog/ConfirmDialog.vue';
-import { errorModule } from '@/store/modules/error';
 
 @Component({
   components: { ConfirmDialog, AssetImport }
@@ -107,14 +107,17 @@ export default class AssetList extends Vue {
    */
 
   /**
-   * When delete of an asset was confirmed
+   * When asset delete is confirmed
+   *
+   * @param uuid
+   * @param dialogClose
    */
-  onAssetDeleteConfirm(uuid: string, dialogClose: Function) {
+  async onAssetDeleteConfirm(uuid: string, dialogClose: Function) {
 
     try {
 
       // Mutate assets in store
-      assetModule.deleteAsset(uuid);
+      await assetModule.deleteAsset(uuid);
 
       dialogClose();
     }

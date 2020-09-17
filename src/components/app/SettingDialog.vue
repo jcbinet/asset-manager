@@ -90,9 +90,9 @@
 import { Component, Ref, Vue } from 'vue-property-decorator';
 import { remote } from 'electron';
 import { EngineEnum, Engines, EngineVersions } from '@/shared/setting/enums/engines';
-import BaseDialog from '@/components/dialog/BaseDialog.vue';
 import { settingModule } from '@/store/modules/setting';
 import { errorModule } from '@/store/modules/error';
+import BaseDialog from '@/components/dialog/BaseDialog.vue';
 
 @Component({
   components: { BaseDialog }
@@ -187,6 +187,7 @@ export default class SettingDialog extends Vue {
       this.formReset();
     }
   }
+
 }
 </script>
 

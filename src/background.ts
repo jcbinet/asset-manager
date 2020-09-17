@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 import { app, protocol, BrowserWindow } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
@@ -37,7 +37,7 @@ function createWindow() {
 
   win.on('closed', () => {
     win = null;
-  })
+  });
 }
 
 // Quit when all windows are closed.
@@ -47,7 +47,7 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
-})
+});
 
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
@@ -55,7 +55,7 @@ app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
-})
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -94,10 +94,10 @@ if (isDevelopment) {
       if (data === 'graceful-exit') {
         app.quit();
       }
-    })
+    });
   } else {
     process.on('SIGTERM', () => {
       app.quit();
-    })
+    });
   }
 }

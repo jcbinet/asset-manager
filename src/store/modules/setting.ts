@@ -31,16 +31,19 @@ export class SettingModule extends VuexModule {
     this.ueSettings = state.ueSettings || this.ueSettings;
   }
 
+  // Export engine
   get getEngine(): EngineEnum {
     return this.engine;
   }
 
+  // Unreal engine specific export settings
   get getUnrealEngineSettings(): UeSettings {
     return this.ueSettings;
   }
 
   /**
    * Update engine used
+   *
    * @param engine
    */
   @Action updateEngine(engine: EngineEnum): void {

@@ -96,11 +96,11 @@
 <script lang="ts">
 import { Component, Prop, Ref, Vue } from 'vue-property-decorator';
 import { assetModule } from '@/store/modules/asset';
-import { Asset } from '@/shared/asset/interfaces/asset';
-import AssetPreviewScene from '@/components/assets/asset-preview-scene/AssetPreviewScene.vue';
-import { AssetFile } from '@/shared/asset/interfaces/asset-file';
-import BaseDialog from '@/components/dialog/BaseDialog.vue';
 import { errorModule } from '@/store/modules/error';
+import { Asset } from '@/shared/asset/interfaces/asset';
+import { AssetFile } from '@/shared/asset/interfaces/asset-file';
+import AssetPreviewScene from '@/components/assets/asset-preview-scene/AssetPreviewScene.vue';
+import BaseDialog from '@/components/dialog/BaseDialog.vue';
 
 @Component({
   components: { BaseDialog, AssetPreviewScene }
@@ -225,7 +225,7 @@ export default class AssetImport extends Vue {
         if (this.editMode) {
           this.asset = { ...this.editAsset };
         }
-      })
+      });
     });
   }
 
@@ -243,8 +243,9 @@ export default class AssetImport extends Vue {
       size: file.size,
       type: file.type,
       webkitRelativePath: file.webkitRelativePath
-    }
+    };
   }
+
 }
 </script>
 

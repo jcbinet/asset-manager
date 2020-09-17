@@ -4,4 +4,4 @@ module.exports = {
       nodeIntegration: true
     }
   }
-}
+};

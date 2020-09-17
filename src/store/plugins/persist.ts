@@ -1,5 +1,5 @@
 import { MutationPayload, Store } from 'vuex';
-import path from 'path'
+import path from 'path';
 import { app, remote } from 'electron';
 import fs from 'fs';
 

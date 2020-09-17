@@ -16,6 +16,7 @@ export class AssetModule extends VuexModule {
   constructor(options: RegisterOptions) {
     super(options);
 
+    this.createThumbnailDirectoryIfNotExisting();
     this.loadState();
   }
 
@@ -28,14 +29,14 @@ export class AssetModule extends VuexModule {
   }
 
 
-  // Get asset
+  // Get asset list
   get getAssets(): Asset[] {
     return this.assets;
   }
 
   // Get path used for asset thumbnails
   get getAssetThumbnailPath(): string {
-    return path.join((app || remote.app).getPath('userData'), 'thumbnails')
+    return path.join((app || remote.app).getPath('userData'), 'thumbnails');
   }
 
   /**
@@ -113,6 +114,7 @@ export class AssetModule extends VuexModule {
   validateDuplicateAssetName(assets: Asset[], asset: Asset): void {
 
     assets.find((a: Asset) => {
+      // Uuid check to ignore self on update
       if (asset.name === a.name && asset.uuid !== a.uuid) {
         throw new DuplicateAssetNameError(asset.name);
       }
@@ -124,7 +126,7 @@ export class AssetModule extends VuexModule {
    *
    * @param asset
    */
-  saveAssetThumbnail(asset: Asset): void {
+  private saveAssetThumbnail(asset: Asset): void {
 
     // Remove previous thumbnail if it exists
     if (asset.thumbnail) {
@@ -136,9 +138,11 @@ export class AssetModule extends VuexModule {
     const filename = `${uuid()}.png`;
     const filepath = path.join(this.getAssetThumbnailPath, filename);
 
+    // Create a buffer from base64 data
     const buffer = new Buffer((asset.newThumbnailData).replace(/^data:image\/\w+;base64,/, ''), 'base64');
+    // Get size of buffer
     const filesize = buffer.length;
-
+    // Write file synchronously
     fs.writeFileSync(filepath, buffer);
 
     asset.newThumbnailData = '';
@@ -152,6 +156,17 @@ export class AssetModule extends VuexModule {
       webkitRelativePath: ''
     };
   }
+
+  /**
+   * Run a check to create thumbnail directory if it does not exist
+   */
+  private createThumbnailDirectoryIfNotExisting(): void {
+
+    if (!fs.existsSync(this.getAssetThumbnailPath)) {
+      fs.mkdirSync(this.getAssetThumbnailPath);
+    }
+  }
+
 }
 
-export const assetModule = new AssetModule({ store: store, name: 'asset' })
+export const assetModule = new AssetModule({ store: store, name: 'asset' });

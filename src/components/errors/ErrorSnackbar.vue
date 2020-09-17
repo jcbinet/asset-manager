@@ -54,8 +54,12 @@ export default class ErrorSnackbar extends Vue {
    * Methods
    */
 
+  /**
+   * Close the snackbar
+   */
   closeSnackbar() {
     this.showSnackbar = false;
   }
+
 }
 </script>

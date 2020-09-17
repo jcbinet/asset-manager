@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import Assets from '@/views/Assets.vue'
+import Vue from 'vue';
+import VueRouter, { RouteConfig } from 'vue-router';
+import Assets from '@/views/Assets.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
@@ -10,12 +10,12 @@ const routes: Array<RouteConfig> = [
     name: 'Assets',
     component: Assets
   }
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
 
-export default router
+export default router;

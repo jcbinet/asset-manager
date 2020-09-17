@@ -87,7 +87,7 @@ export default class AssetPreviewScene extends Vue {
   async onModelChange() {
     if (!this.asset.model) return;
 
-    await this.loadMesh()
+    await this.loadMesh();
     await this.debouncedApply();
   }
 
@@ -122,10 +122,6 @@ export default class AssetPreviewScene extends Vue {
     await this.loadNormal();
     await this.debouncedApply();
   }
-
-  /**
-   * Emitters
-   */
 
   /**
    * Methods
@@ -249,7 +245,7 @@ export default class AssetPreviewScene extends Vue {
         error => {
           reject(error);
         }
-      )
+      );
     });
   }
 
@@ -285,6 +281,7 @@ export default class AssetPreviewScene extends Vue {
       this.renderScene();
     }
   }
+
 }
 </script>
 

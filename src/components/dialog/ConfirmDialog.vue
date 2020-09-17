@@ -51,6 +51,7 @@ export default class ConfirmDialog extends Vue {
   confirmed(dialogClose: Function): Function {
     return dialogClose;
   }
+
 }
 </script>
 

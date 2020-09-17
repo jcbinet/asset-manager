@@ -88,11 +88,10 @@ export default class BaseDialog extends Vue {
   closeDialog(): void {
     this.dialog = false;
   }
+
 }
 </script>
 
 <style>
-.v-dialog {
-  overflow-y: hidden;
-}
+
 </style>
