@@ -47,6 +47,7 @@
       </v-container>
     </v-main>
 
+    <task-snackbars />
     <error-snackbar />
   </v-app>
 </template>
@@ -55,9 +56,10 @@
 import { Component, Vue } from 'vue-property-decorator';
 import SettingDialog from '@/components/app/SettingDialog.vue';
 import ErrorSnackbar from '@/components/errors/ErrorSnackbar.vue';
+import TaskSnackbars from '@/components/app/TaskSnackbars.vue';
 
 @Component({
-  components: { ErrorSnackbar, SettingDialog }
+  components: { TaskSnackbars, ErrorSnackbar, SettingDialog }
 })
 export default class App extends Vue {
 

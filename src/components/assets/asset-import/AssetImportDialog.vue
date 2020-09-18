@@ -129,21 +129,25 @@ export default class AssetImport extends Vue {
   formValid: boolean = true;
 
   // Asset model
-  asset: Asset = {
-    uuid: '',
-    name: '',
-    model: undefined,
-    albedo: undefined,
-    metalness: undefined,
-    roughness: undefined,
-    normal: undefined,
-    thumbnail: undefined,
-    newThumbnailData: ''
-  };
+  asset: Asset = this.defaultAsset;
 
   /**
    * Computed
    */
+
+  get defaultAsset(): Asset {
+    return {
+      uuid: '',
+      name: '',
+      model: undefined,
+      albedo: undefined,
+      metalness: undefined,
+      roughness: undefined,
+      normal: undefined,
+      thumbnail: undefined,
+      newThumbnailData: ''
+    };
+  }
 
   get titleText(): string {
     return this.editMode ? 'Edit asset' : 'Import asset';
@@ -169,9 +173,7 @@ export default class AssetImport extends Vue {
    */
   formReset(): void {
     this.form.reset();
-    this.asset.uuid = '';
-    this.asset.thumbnail = undefined;
-    this.asset.newThumbnailData = '';
+    this.asset = this.defaultAsset;
   }
 
   /**

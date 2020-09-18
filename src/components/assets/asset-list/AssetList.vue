@@ -33,8 +33,29 @@
           </v-card-subtitle>
 
           <v-card-actions>
-            <v-btn text>Export</v-btn>
 
+            <!-- Export -->
+            <confirm-dialog
+              title="Export Asset"
+              @confirmed="onAssetExportConfirm(asset, $event)"
+            >
+              <template v-slot:activator="{ on: dialog }">
+                <v-btn
+                  text
+                  v-on="dialog"
+                >
+                  Export
+                </v-btn>
+              </template>
+
+              <template v-slot:message>
+                Do you really want to export the asset
+                <strong class="font-weight-bold font-italic">{{ asset.name }}</strong>
+                ?
+              </template>
+            </confirm-dialog>
+
+            <!-- Edit -->
             <asset-import edit-mode :edit-asset="asset">
               <template v-slot:activator="{ on: dialog, attrs }">
                 <v-btn
@@ -50,6 +71,7 @@
 
             <v-spacer/>
 
+            <!-- Delete -->
             <confirm-dialog
               title="Delete Asset"
               @confirmed="onAssetDeleteConfirm(asset.uuid, $event)"
@@ -85,9 +107,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { assetModule } from '@/store/modules/asset';
+import { exportModule } from '@/store/modules/export';
 import { errorModule } from '@/store/modules/error';
+import { Asset } from '@/shared/asset/interfaces/asset';
 import AssetImport from '@/components/assets/asset-import/AssetImportDialog.vue';
 import ConfirmDialog from '@/components/dialog/ConfirmDialog.vue';
+import { taskModule } from '@/store/modules/task';
+import { newTask } from '@/shared/task/task';
+import { TaskTypes } from '@/shared/task/enums/task-types';
 
 @Component({
   components: { ConfirmDialog, AssetImport }
@@ -118,6 +145,30 @@ export default class AssetList extends Vue {
 
       // Mutate assets in store
       await assetModule.deleteAsset(uuid);
+
+      dialogClose();
+    }
+    catch (error) {
+      errorModule.handleError(error);
+    }
+  }
+
+  /**
+   * When asset export is confirmed
+   *
+   * @param asset
+   * @param dialogClose
+   */
+  async onAssetExportConfirm(asset: Asset, dialogClose: Function) {
+
+    try {
+
+      // Add a task to export asset
+      taskModule.addTask(newTask(
+        'Exporting asset...',
+        TaskTypes.Export,
+        exportModule.exportAsset(asset)
+      ));
 
       dialogClose();
     }

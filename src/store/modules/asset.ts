@@ -22,8 +22,10 @@ export class AssetModule extends VuexModule {
 
   /*
    * Retrieve and load persisted state when module is registered
+   *
+   * @private
    */
-  loadState() {
+  private loadState() {
     const state = Persister.getPersistedState('asset') || { assets: [] };
     this.assets = state.assets;
   }
@@ -125,6 +127,7 @@ export class AssetModule extends VuexModule {
    * Save asset thumbnail to file
    *
    * @param asset
+   * @private
    */
   private saveAssetThumbnail(asset: Asset): void {
 
@@ -159,6 +162,8 @@ export class AssetModule extends VuexModule {
 
   /**
    * Run a check to create thumbnail directory if it does not exist
+   *
+   * @private
    */
   private createThumbnailDirectoryIfNotExisting(): void {
 

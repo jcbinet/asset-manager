@@ -23,8 +23,10 @@ export class SettingModule extends VuexModule {
 
   /**
    * Retrieve and load persisted state when module is registered
+   *
+   * @private
    */
-  loadState(): void {
+  private loadState(): void {
     const state = Persister.getPersistedState('setting');
 
     this.engine = state.engine || this.engine;

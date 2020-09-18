@@ -114,8 +114,8 @@ export default class SettingDialog extends Vue {
 
   exportEngines = Engines;
   engineVersions = EngineVersions;
-  engine = settingModule.getEngine;
-  ueSettings = { ...settingModule.getUnrealEngineSettings };
+  engine = this.getEngine;
+  ueSettings = this.copyUnrealEngineSettings;
 
   /**
    * Computed
@@ -123,6 +123,18 @@ export default class SettingDialog extends Vue {
 
   isUnrealEngine() {
     return this.engine = EngineEnum.UnrealEngine;
+  }
+
+  /**
+   * Vuex Computed
+   */
+
+  get getEngine() {
+    return settingModule.getEngine;
+  }
+
+  get copyUnrealEngineSettings() {
+    return { ...settingModule.getUnrealEngineSettings };
   }
 
 
