@@ -95,6 +95,9 @@
                 Do you really want to remove the asset
                 <strong class="font-weight-bold font-italic">{{ asset.name }}</strong>
                 ?
+                <br/>
+                <br/>
+                <strong class="font-weight-bold">The asset will not be removed from engines where it was exported.</strong>
               </template>
             </confirm-dialog>
           </v-card-actions>

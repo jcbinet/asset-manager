@@ -57,15 +57,13 @@ export class ExportModule extends VuexModule {
       const python = spawn('python', ['./src/python/ue_launch_import.py']);
 
       // Python stderr
-      python.stdout.on('data', (data) => {
-        console.log(data.toString());
-
-        if (data.toString().includes('EXPORT COMPLETE')) resolve();
-      });
-
-      // Python stderr
       python.stderr.on('data', (data) => {
         console.log('error', data.toString());
+
+        if (data.toString().includes('most likely raised during interpreter shutdown')) resolve();
+        else {
+          console.log('error', data.toString());
+        }
         // Todo: catch error when unreal is not opened
 
         // Todo: catch error when unreal remote execution is not enabled
