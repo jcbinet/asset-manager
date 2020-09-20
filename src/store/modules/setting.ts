@@ -1,7 +1,9 @@
 import { Action, Module, RegisterOptions, VuexModule } from 'vuex-class-modules';
+import { exec } from 'child_process';
+import fs from 'fs';
 import store, { Persister } from '@/store';
 import { UeSettings } from '@/shared/setting/interfaces/ue-settings';
-import { EngineEnum } from '@/shared/setting/enums/engines';
+import { EngineEnum, UeVersionPluginRepo } from '@/shared/setting/enums/engines';
 
 @Module({ generateMutationSetters: true })
 export class SettingModule extends VuexModule {
@@ -59,6 +61,28 @@ export class SettingModule extends VuexModule {
    */
   @Action updateUeSettings(settings: UeSettings): void {
     this.ueSettings = settings;
+
+    if (this.ueSettings.uePath && this.ueSettings.ueVersion) {
+
+      // Validate plugin exists else install it
+      if (!this.isPluginInstalled()) {
+        const pluginRepo = UeVersionPluginRepo.get(this.ueSettings.ueVersion);
+
+        // Todo: Convert this to a task
+        exec(`cd ${this.ueSettings.uePath} && git clone ${pluginRepo} AssetManager`, (error, stdout, stderr) => {
+          if (error) console.log('error', error);
+          if (stderr) console.log('stderr', stderr);
+          if (stdout) console.log('stdout', stdout);
+        });
+      }
+    }
+  }
+
+  /**
+   * Returns whether plugin is installed
+   */
+  isPluginInstalled(): boolean {
+    return fs.existsSync(`${this.ueSettings.uePath}\\AssetManager`);
   }
 
 }

@@ -22,7 +22,9 @@
       clipped-left
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Asset Manager</v-toolbar-title>
+      <v-toolbar-title>
+        <img class="logo" src="@/assets/asset-manager-app-bar-logo.png" alt="logo" />
+      </v-toolbar-title>
       <v-spacer />
       <setting-dialog>
         <template v-slot:activator="{ on: dialog }">
@@ -72,5 +74,9 @@ export default class App extends Vue {
 </script>
 
 <style>
-
+  .logo {
+    margin-top: 8px;
+    height: 30px;
+    vertical-align: middle;
+  }
 </style>
